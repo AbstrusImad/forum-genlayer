@@ -2,6 +2,6 @@
 const nextConfig = {
   output: 'export',
   images: { unoptimized: true },
-  basePath: '/forum-genlayer',
+  assetPrefix: '/forum-genlayer',
 };
 module.exports = nextConfig;
