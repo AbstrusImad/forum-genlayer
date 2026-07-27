@@ -4,8 +4,8 @@ import { useState, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, ExternalLink } from 'lucide-react'
 import { useWallet } from '@/hooks/useWallet'
-import { shortAddr, shortHash } from '@/lib/format'
-import { EXPLORER, CONTRACT_ADDRESS, HAS_CONTRACT } from '@/lib/contract'
+import { shortAddr } from '@/lib/format'
+import { CONTRACT_ADDRESS, HAS_CONTRACT } from '@/lib/contract'
 
 interface HeaderProps {
   wallet: ReturnType<typeof useWallet>
@@ -36,7 +36,7 @@ export function Header({ wallet }: HeaderProps) {
         </a>
 
         {/* Nav links */}
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-8" aria-label="Main navigation">
           <a href="#how-it-works" className="text-sm text-ink-600 hover:text-ink-900 transition-colors">
             How it works
           </a>
@@ -136,7 +136,7 @@ export function Header({ wallet }: HeaderProps) {
             <button
               onClick={wallet.connect}
               disabled={wallet.connecting}
-              className="px-4 py-1.5 bg-cobalt text-white text-sm font-medium hover:bg-cobalt-light transition-colors disabled:opacity-50"
+              className="px-4 py-2.5 bg-cobalt text-white text-sm font-medium hover:bg-cobalt-light transition-colors disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px]"
             >
               {wallet.connecting ? 'Connecting...' : 'Connect'}
             </button>
@@ -155,7 +155,7 @@ export function Header({ wallet }: HeaderProps) {
 
       {/* Mobile nav */}
       <AnimatePresence>
-        {menuOpen && !wallet.address && (
+        {menuOpen && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}

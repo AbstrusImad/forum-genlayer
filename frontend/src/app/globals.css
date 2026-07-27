@@ -11,7 +11,7 @@
   --text-primary: #0f0f12;
   --text-secondary: #3d3d44;
   --text-tertiary: #56565e;
-  --text-muted: #8a8a92;
+  --text-muted: #6b6b73;
   --text-inverse: #f4f2ec;
 
   --accent: #2945c9;
@@ -28,12 +28,12 @@
   --danger: #d1293d;
 
   --radius: 0px;
-  --font-display: 'Space Grotesk', system-ui, sans-serif;
-  --font-body: 'Inter', system-ui, sans-serif;
-  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --font-display: var(--font-space-grotesk, 'Space Grotesk', system-ui, sans-serif);
+  --font-body: var(--font-inter, 'Inter', system-ui, sans-serif);
+  --font-mono: var(--font-plex-mono, 'IBM Plex Mono', ui-monospace, monospace);
 }
 
-* {
+*:not(.rounded-full):not([style*="border-radius"]) {
   border-radius: var(--radius) !important;
 }
 
@@ -93,14 +93,6 @@ body {
   font-family: var(--font-mono);
   font-size: 0.8125rem;
   letter-spacing: 0.01em;
-}
-
-/* Crosshair grid pattern for hero */
-.crosshair-grid {
-  background-image:
-    linear-gradient(var(--border-subtle) 1px, transparent 1px),
-    linear-gradient(90deg, var(--border-subtle) 1px, transparent 1px);
-  background-size: 48px 48px;
 }
 
 /* Focus ring */

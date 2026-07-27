@@ -33,18 +33,21 @@ export function Hero({ onConnect, isConnected }: HeroProps) {
       canvas.height = h * dpr
       canvas.style.width = `${w}px`
       canvas.style.height = `${h}px`
-      ctx.scale(dpr, dpr)
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
     }
 
     resize()
     window.addEventListener('resize', resize)
 
     let time = 0
+    let lastFrame = performance.now()
     const gridSpacing = 48
 
-    function draw() {
+    function draw(now: number) {
       if (!ctx) return
-      time += 0.003
+      const dt = (now - lastFrame) / 1000
+      lastFrame = now
+      time += dt * 0.18
       ctx.clearRect(0, 0, w, h)
 
       // Draw grid
@@ -123,6 +126,7 @@ export function Hero({ onConnect, isConnected }: HeroProps) {
       if (document.hidden) {
         cancelAnimationFrame(animRef.current)
       } else {
+        lastFrame = performance.now()
         animRef.current = requestAnimationFrame(draw)
       }
     }

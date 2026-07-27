@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback, useRef } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowRight, Zap, Users, Shield, ExternalLink } from 'lucide-react'
 import { Header } from '@/components/Header'
@@ -33,15 +33,18 @@ export default function HomePage() {
     setToasts(prev => prev.filter(t => t.id !== id))
   }, [])
 
-  const removeToast = useCallback((id: string) => {
-    setToasts(prev => prev.filter(t => t.id !== id))
-  }, [])
+  // Surface wallet errors as toasts
+  useEffect(() => {
+    if (wallet.error) {
+      addToast({ type: 'error', title: wallet.error })
+    }
+  }, [wallet.error, addToast])
 
   return (
     <>
       <Header wallet={wallet} />
 
-      <main>
+      <main id="main-content">
         <Hero
           onConnect={wallet.connect}
           isConnected={!!wallet.address}
@@ -86,46 +89,54 @@ export default function HomePage() {
                 </a>
               </motion.div>
 
-              {/* Right column: feature cards */}
-              <div className="lg:col-span-6 lg:col-start-7 space-y-6">
-                {[
-                  {
-                    icon: Zap,
-                    title: 'AI under consensus',
-                    text: 'The LLM judgment is re-run by multiple validators. Agreement on the decision confirms the verdict on-chain, not on one server.',
-                  },
-                  {
-                    icon: Shield,
-                    title: 'Injection resistant',
-                    text: 'User text is capped and treated as untrusted data. The AI prompt enforces strict rules that nothing in user input can override.',
-                  },
-                  {
-                    icon: Users,
-                    title: 'Open deliberation',
-                    text: 'Anyone can submit arguments. The contract evaluates quality based on reasoning, evidence, and relevance. No gatekeeping.',
-                  },
-                ].map((feature, i) => (
-                  <motion.div
-                    key={feature.title}
-                    initial={{ opacity: 0, y: 16 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: '-60px' }}
-                    transition={{ duration: 0.4, delay: i * 0.1 }}
-                    className="flex gap-5 p-6 border border-paper-300 bg-paper-50 group hover:border-cobalt/30 transition-colors"
-                  >
-                    <div className="w-10 h-10 border border-paper-300 flex items-center justify-center shrink-0 group-hover:border-cobalt/30 transition-colors">
-                      <feature.icon className="w-5 h-5 text-ink-500 group-hover:text-cobalt transition-colors" />
-                    </div>
-                    <div>
-                      <h3 className="font-display font-semibold text-base tracking-tight mb-1.5">
-                        {feature.title}
-                      </h3>
-                      <p className="text-sm text-ink-600 leading-relaxed">
-                        {feature.text}
-                      </p>
-                    </div>
-                  </motion.div>
-                ))}
+              {/* Right column: editorial feature list */}
+              <div className="lg:col-span-6 lg:col-start-7">
+                <div className="border-t-2 border-ink-900">
+                  {[
+                    {
+                      number: 'A',
+                      icon: Zap,
+                      title: 'AI under consensus',
+                      text: 'The LLM judgment is re-run by multiple validators. Agreement on the decision confirms the verdict on-chain, not on one server.',
+                    },
+                    {
+                      number: 'B',
+                      icon: Shield,
+                      title: 'Injection resistant',
+                      text: 'User text is capped and treated as untrusted data. The AI prompt enforces strict rules that nothing in user input can override.',
+                    },
+                    {
+                      number: 'C',
+                      icon: Users,
+                      title: 'Open deliberation',
+                      text: 'Anyone can submit arguments. The contract evaluates quality based on reasoning, evidence, and relevance. No gatekeeping.',
+                    },
+                  ].map((feature, i) => (
+                    <motion.div
+                      key={feature.title}
+                      initial={{ opacity: 0, x: 12 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true, margin: '-60px' }}
+                      transition={{ duration: 0.4, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
+                      className="grid grid-cols-[3rem_1fr] gap-x-5 py-7 border-b border-paper-300 group"
+                    >
+                      <span className="font-display text-3xl font-bold text-paper-300 group-hover:text-cobalt transition-colors leading-none select-none">
+                        {feature.number}
+                      </span>
+                      <div>
+                        <div className="flex items-center gap-2.5 mb-2">
+                          <feature.icon className="w-4 h-4 text-ink-500 group-hover:text-cobalt transition-colors" />
+                          <h3 className="font-display font-semibold text-base tracking-tight">
+                            {feature.title}
+                          </h3>
+                        </div>
+                        <p className="text-sm text-ink-600 leading-relaxed">
+                          {feature.text}
+                        </p>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -135,13 +146,13 @@ export default function HomePage() {
         <section className="py-24 border-b border-paper-300 bg-ink-900 text-paper-100">
           <div className="max-w-7xl mx-auto px-6">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 30, filter: 'blur(8px)' }}
+              whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
               viewport={{ once: true, margin: '-80px' }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
               className="max-w-2xl"
             >
-              <span className="font-mono text-xs uppercase tracking-widest text-paper-100/50 mb-4 block">
+              <span className="font-mono text-xs uppercase tracking-widest text-paper-100/70 mb-4 block">
                 Get started
               </span>
               <h2 className="display-xl text-4xl sm:text-5xl lg:text-6xl text-paper-100 mb-6">
