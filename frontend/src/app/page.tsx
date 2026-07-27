@@ -53,7 +53,7 @@ export default function HomePage() {
         <HowItWorks />
 
         {/* Features section: two-column editorial */}
-        <section className="py-24 border-b border-paper-300">
+        <section className="py-24 border-b border-paper-300 scroll-reveal">
           <div className="max-w-7xl mx-auto px-6">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
               {/* Left column */}
@@ -143,7 +143,7 @@ export default function HomePage() {
         </section>
 
         {/* CTA section */}
-        <section className="py-24 border-b border-paper-300 bg-ink-900 text-paper-100">
+        <section className="py-24 border-b border-paper-300 bg-ink-900 text-paper-100 scroll-reveal">
           <div className="max-w-7xl mx-auto px-6">
             <motion.div
               initial={{ opacity: 0, y: 30, filter: 'blur(8px)' }}
